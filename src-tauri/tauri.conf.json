@@ -1,62 +1,86 @@
 {
-  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
-    "beforeBuildCommand": "cross-env NEXT_PUBLIC_BUILD_MODE=export pnpm build",
-    "beforeDevCommand": "cross-env NEXT_PUBLIC_BUILD_MODE=export pnpm dev",
-    "frontendDist": "../out",
-    "devUrl": "http://localhost:3000"
+    "beforeBuildCommand": "cross-env NEXT_PUBLIC_BUILD_MODE=export npm run build",
+    "beforeDevCommand": "cross-env NEXT_PUBLIC_BUILD_MODE=export npm run dev",
+    "devPath": "http://localhost:3000",
+    "distDir": "../out"
   },
-  "bundle": {
-    "active": true,
-    "category": "Productivity",
-    "copyright": "2024, U14.app All Rights Reserved.",
-    "targets": "all",
-    "externalBin": [],
-    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
-    "windows": {
-      "certificateThumbprint": null,
-      "digestAlgorithm": "sha256",
-      "timestampUrl": ""
+  "package": {
+    "productName": "OhMyGemini",
+    "version": "1.10.1"
+  },
+  "tauri": {
+    "allowlist": {
+      "shell": {
+        "open": true
+      }
     },
-    "longDescription": "Your private Gemini application, supporting Gemini 1.5 Pro, Gemini 1.5 Flash, Gemini Pro and Gemini Pro Vision models.",
-    "macOS": {
-      "entitlements": "Release.entitlements",
-      "exceptionDomain": "",
-      "frameworks": [],
-      "providerShortName": null,
-      "signingIdentity": null
-    },
-    "resources": [],
-    "shortDescription": "Your private Gemini application.",
-    "linux": {
+    "bundle": {
+      "active": true,
+      "category": "Productivity",
+      "copyright": "2024, U14.app All Rights Reserved.",
       "deb": {
         "depends": []
+      },
+      "externalBin": [],
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "identifier": "com.u14.ohmygemini",
+      "longDescription": "OhMyGemini: Your private Gemini application, supporting Gemini 1.5 Pro, Gemini 1.5 Flash, Gemini Pro and Gemini Pro Vision models.",
+      "macOS": {
+        "entitlements": "Release.entitlements",
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+      "resources": [
+        "../docs/SECURITY.md"
+      ],
+      "shortDescription": "OhMyGemini: Your private Gemini application.",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": "http://timestamp.digicert.com",
+        "wix": {
+          "language": ["en-US", "zh-CN"]
+        },
+        "nsis": {
+          "languages": ["English", "SimpChinese"],
+          "displayLanguageSelector": true
+        },
+        "webviewInstallMode": {
+          "type": "downloadBootstrapper"
+        }
       }
-    }
-  },
-  "productName": "gemini-next-chat",
-  "mainBinaryName": "gemini-next-chat",
-  "version": "1.10.1",
-  "identifier": "com.u14.app",
-  "plugins": {},
-  "app": {
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "macOSPrivateApi": true,
     "windows": [
       {
-        "title": "Gemini Next Chat",
-        "width": 1024,
-        "height": 768,
+        "title": "OhMyGemini",
+        "width": 1280,
+        "height": 800,
         "minWidth": 375,
         "minHeight": 667,
         "fullscreen": false,
         "resizable": true,
-        "hiddenTitle": false,
-        "skipTaskbar": true,
-        "useHttpsScheme": true
+        "center": true,
+        "decorations": true,
+        "transparent": false
       }
-    ],
-    "macOSPrivateApi": true,
-    "security": {
-      "csp": null
-    }
+    ]
   }
 }

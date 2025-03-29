@@ -21,7 +21,7 @@ import {
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
-} from '@/components/ui/sidebar'
+} from '@/components/ui/sidebar-fixed'
 import {
   DropdownMenu,
   DropdownMenuContent,

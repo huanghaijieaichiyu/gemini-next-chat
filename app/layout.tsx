@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/toaster'
 import ThemeProvider from '@/components/ThemeProvider'
 import StoreProvider from '@/components/StoreProvider'
 import I18Provider from '@/components/I18nProvider'
-import { SidebarProvider } from '@/components/ui/sidebar'
+import { SidebarProvider } from '@/components/ui/sidebar-fixed'
 import AppSidebar from '@/components/AppSidebar'
 
 import './globals.css'

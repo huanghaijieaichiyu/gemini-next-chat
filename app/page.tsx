@@ -10,13 +10,12 @@ import {
   Settings,
   Square,
   SendHorizontal,
-  Github,
   PanelLeftOpen,
   PanelLeftClose,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import ThemeToggle from '@/components/ThemeToggle'
-import { useSidebar } from '@/components/ui/sidebar'
+import { useSidebar } from '@/components/ui/sidebar-fixed'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
@@ -44,7 +43,6 @@ import { OldVisionModel, OldTextModel } from '@/constant/model'
 import mimeType from '@/constant/attachment'
 import { customAlphabet } from 'nanoid'
 import { isFunction, findIndex, isUndefined, entries, flatten, isEmpty } from 'lodash-es'
-import type { OpenAPIV3_1 } from 'openapi-types'
 
 interface AnswerParams {
   messages: Message[]
@@ -501,9 +499,8 @@ export default function Home() {
         let path: GatewayPayload['path'] = {}
         let query: GatewayPayload['query'] = {}
         let cookie: GatewayPayload['cookie'] = {}
+        const parameters = operation.parameters as any[]
         for (const [name, value] of entries(call.args)) {
-          const parameters = operation.parameters as OpenAPIV3_1.ParameterObject[]
-          const requestBody = operation.requestBody
           if (parameters) {
             parameters.forEach((parameter) => {
               if (parameter.name === name) {
@@ -520,7 +517,7 @@ export default function Home() {
                 }
               }
             })
-          } else if (requestBody) {
+          } else if (operation.requestBody) {
             body[name] = value
           }
         }
@@ -984,11 +981,6 @@ export default function Home() {
           </div>
         </div>
         <div className="flex w-32 items-center gap-1 max-sm:gap-0">
-          <a href="https://github.com/u14app/gemini-next-chat" target="_blank">
-            <Button className="h-8 w-8" title={t('github')} variant="ghost" size="icon">
-              <Github className="h-5 w-5" />
-            </Button>
-          </a>
           <ThemeToggle />
           <Button
             className="h-8 w-8"

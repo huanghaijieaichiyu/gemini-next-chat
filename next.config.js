@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const { PHASE_PRODUCTION_BUILD, PHASE_EXPORT } = require('next/constants')
 
+const isProd = process.env.NODE_ENV === 'production'
+const isExport = process.env.NEXT_PUBLIC_BUILD_MODE === 'export'
+const isStandalone = process.env.NEXT_PUBLIC_BUILD_MODE === 'standalone'
+
 const mode = process.env.NEXT_PUBLIC_BUILD_MODE
 const basePath = process.env.EXPORT_BASE_PATH || ''
 const geminiApiKey = process.env.GEMINI_API_KEY || ''
@@ -9,17 +13,23 @@ const uploadProxyUrl = process.env.GEMINI_API_BASE_URL || 'https://generativelan
 /** @type {(phase: string, defaultConfig: import("next").NextConfig) => Promise<import("next").NextConfig>} */
 module.exports = async (phase) => {
   const nextConfig = {
-    images: {
-      unoptimized: mode === 'export',
-    },
     reactStrictMode: false,
+    output: isExport ? 'export' : isStandalone ? 'standalone' : undefined,
+    trailingSlash: isExport,
+    distDir: isExport ? 'out' : '.next',
+    images: {
+      unoptimized: isExport,
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: '**',
+        },
+      ],
+    },
   }
+
   if (mode === 'export') {
-    nextConfig.output = 'export'
-    // Only used for static deployment, the default deployment directory is the root directory
     nextConfig.basePath = basePath
-  } else if (mode === 'standalone') {
-    nextConfig.output = 'standalone'
   }
 
   if (mode !== 'export') {
@@ -112,6 +122,15 @@ module.exports = async (phase) => {
       register: false,
     })
     return withSerwist(nextConfig)
+  }
+
+  // Optimization for production builds
+  if (isProd) {
+    nextConfig.compiler = {
+      removeConsole: {
+        exclude: ['error', 'warn'],
+      },
+    }
   }
 
   return nextConfig

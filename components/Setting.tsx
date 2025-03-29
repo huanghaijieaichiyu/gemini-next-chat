@@ -322,18 +322,7 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
                 <div className="grid grid-cols-4 items-center gap-4 space-y-0">
                   <Label className="text-right">{t('version')}</Label>
                   <div className="col-span-3 text-center leading-10">
-                    {`v${pkg.version}`}{' '}
-                    <small>
-                      (
-                      <a
-                        className="underline underline-offset-2"
-                        href="https://github.com/u14app/gemini-next-chat/releases"
-                        target="_blank"
-                      >
-                        {t('checkForUpdate')}
-                      </a>
-                      )
-                    </small>
+                    {`v${pkg.version}`}
                   </div>
                 </div>
               </div>
